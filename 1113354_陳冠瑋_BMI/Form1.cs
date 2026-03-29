@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
@@ -24,6 +26,8 @@ namespace _1113354_陳冠瑋_BMI
         private int targetGauge;
         private double latestHeightMeter;
         private double pulsePhase;
+        private readonly List<double> trendBmis = new List<double>();
+        private readonly List<DateTime> trendTimes = new List<DateTime>();
 
         public Form1()
         {
@@ -38,10 +42,28 @@ namespace _1113354_陳冠瑋_BMI
             btnClear.MouseEnter += BtnClear_MouseEnter;
             btnClear.MouseLeave += BtnClear_MouseLeave;
             panelDistribution.Resize += PanelDistribution_Resize;
+            Paint += Form1_Paint;
             clockTimer.Start();
             headerPulseTimer.Start();
             clockTimer_Tick(this, EventArgs.Empty);
             txtHeight.Focus();
+        }
+
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+            var g = e.Graphics;
+            var rect = ClientRectangle;
+            if (rect.Width <= 0 || rect.Height <= 0)
+            {
+                return;
+            }
+
+            Color c1 = isDarkTheme ? Color.FromArgb(21, 27, 36) : Color.FromArgb(245, 249, 255);
+            Color c2 = isDarkTheme ? Color.FromArgb(31, 36, 48) : Color.FromArgb(233, 241, 252);
+            using (var brush = new LinearGradientBrush(rect, c1, c2, 95f))
+            {
+                g.FillRectangle(brush, rect);
+            }
         }
 
         private void btnRun_Click(object sender, EventArgs e)
@@ -89,6 +111,38 @@ namespace _1113354_陳冠瑋_BMI
             sb.AppendLine(lblTargetWeight.Text);
             Clipboard.SetText(sb.ToString());
             lblHint.Text = "已複製 BMI 報告到剪貼簿";
+        }
+
+        private void btnExportReport_Click(object sender, EventArgs e)
+        {
+            if (trendBmis.Count == 0)
+            {
+                lblHint.Text = "目前沒有可匯出的資料";
+                return;
+            }
+
+            using (var dialog = new SaveFileDialog())
+            {
+                dialog.Filter = "CSV 檔案 (*.csv)|*.csv|文字檔案 (*.txt)|*.txt";
+                dialog.FileName = "BMI_Report_" + DateTime.Now.ToString("yyyyMMdd_HHmmss", CultureInfo.InvariantCulture);
+                if (dialog.ShowDialog(this) != DialogResult.OK)
+                {
+                    return;
+                }
+
+                var sb = new StringBuilder();
+                sb.AppendLine("Time,BMI,Category");
+                for (int i = 0; i < trendBmis.Count; i++)
+                {
+                    string time = trendTimes[i].ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+                    string bmi = trendBmis[i].ToString("F2", CultureInfo.InvariantCulture);
+                    string category = GetBmiCategory(trendBmis[i]);
+                    sb.AppendLine(time + "," + bmi + "," + category);
+                }
+
+                File.WriteAllText(dialog.FileName, sb.ToString(), Encoding.UTF8);
+                lblHint.Text = "報告已匯出：" + Path.GetFileName(dialog.FileName);
+            }
         }
 
         private void txtInput_TextChanged(object sender, EventArgs e)
@@ -170,9 +224,11 @@ namespace _1113354_陳冠瑋_BMI
             lblDeltaToNormal.Text = GetDeltaToNormalText(bmi, heightMeter);
             lblTargetWeight.Text = GetTargetWeightText(heightMeter);
             UpdateDistributionMarker(bmi);
+            AddTrendPoint(bmi);
             AddHistoryItem(bmi);
             panelDistribution.Invalidate();
             panelBmiRing.Invalidate();
+            panelTrend.Invalidate();
         }
 
         private void ResetResultDisplay()
@@ -198,6 +254,18 @@ namespace _1113354_陳冠瑋_BMI
             lblHint.Text = "提示：按 Enter 計算、按 Esc 清除，輸入只接受數字與小數點";
             panelDistribution.Invalidate();
             panelBmiRing.Invalidate();
+            panelTrend.Invalidate();
+        }
+
+        private void AddTrendPoint(double bmi)
+        {
+            trendBmis.Add(bmi);
+            trendTimes.Add(DateTime.Now);
+            while (trendBmis.Count > 30)
+            {
+                trendBmis.RemoveAt(0);
+                trendTimes.RemoveAt(0);
+            }
         }
 
         private string GetBmiCategory(double bmi)
@@ -381,11 +449,13 @@ namespace _1113354_陳冠瑋_BMI
             ApplyRoundedRegion(btnClear, 16);
             ApplyRoundedRegion(btnTheme, 16);
             ApplyRoundedRegion(btnCopySummary, 16);
+            ApplyRoundedRegion(btnExportReport, 16);
             ApplyRoundedRegion(lblResult, 12);
             ApplyRoundedRegion(lblCategory, 12);
             ApplyRoundedRegion(progressBarBmi, 10);
             ApplyRoundedRegion(panelHeader, 22);
             ApplyRoundedRegion(panelDistribution, 12);
+            ApplyRoundedRegion(panelTrend, 14);
         }
 
         private void clockTimer_Tick(object sender, EventArgs e)
@@ -420,12 +490,127 @@ namespace _1113354_陳冠瑋_BMI
             UpdateDistributionMarker(targetBmi > 0 ? targetBmi : DistributionMin);
             panelBmiRing.Invalidate();
             panelDistribution.Invalidate();
+            panelTrend.Invalidate();
         }
 
         private void PanelDistribution_Resize(object sender, EventArgs e)
         {
             UpdateDistributionMarker(targetBmi > 0 ? targetBmi : DistributionMin);
             panelDistribution.Invalidate();
+        }
+
+        private void panelTrend_Paint(object sender, PaintEventArgs e)
+        {
+            var g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.Clear(panelTrend.BackColor);
+
+            Rectangle chartArea = new Rectangle(10, 10, panelTrend.Width - 20, panelTrend.Height - 20);
+            using (var gridPen = new Pen(isDarkTheme ? Color.FromArgb(66, 76, 94) : Color.FromArgb(216, 226, 239)))
+            {
+                g.DrawRectangle(gridPen, chartArea);
+                int midY = chartArea.Top + chartArea.Height / 2;
+                g.DrawLine(gridPen, chartArea.Left, midY, chartArea.Right, midY);
+            }
+
+            if (trendBmis.Count == 0)
+            {
+                using (var font = new Font("微軟正黑體", 9f, FontStyle.Bold))
+                using (var brush = new SolidBrush(isDarkTheme ? Color.FromArgb(179, 196, 220) : Color.FromArgb(104, 126, 153)))
+                {
+                    g.DrawString("BMI Trend", font, brush, 14, 12);
+                    g.DrawString("尚無資料", font, brush, 14, 34);
+                }
+                return;
+            }
+
+            double min = Math.Min(14, Math.Floor(MinTrendValue()));
+            double max = Math.Max(36, Math.Ceiling(MaxTrendValue()));
+            if (Math.Abs(max - min) < 0.01)
+            {
+                max = min + 1;
+            }
+
+            PointF[] points = new PointF[trendBmis.Count];
+            for (int i = 0; i < trendBmis.Count; i++)
+            {
+                float x = chartArea.Left + (chartArea.Width * i / (float)Math.Max(1, trendBmis.Count - 1));
+                float y = chartArea.Bottom - (float)((trendBmis[i] - min) / (max - min) * chartArea.Height);
+                points[i] = new PointF(x, y);
+            }
+
+            using (var linePen = new Pen(isDarkTheme ? Color.FromArgb(99, 182, 255) : Color.FromArgb(35, 131, 219), 2.2f))
+            {
+                if (points.Length > 1)
+                {
+                    g.DrawLines(linePen, points);
+                }
+            }
+
+            PointF latest = points[points.Length - 1];
+            using (var markerBrush = new SolidBrush(isDarkTheme ? Color.FromArgb(120, 207, 141) : Color.FromArgb(22, 166, 91)))
+            {
+                g.FillEllipse(markerBrush, latest.X - 4.5f, latest.Y - 4.5f, 9, 9);
+            }
+
+            using (var font = new Font("Segoe UI", 8.5f, FontStyle.Bold))
+            using (var brush = new SolidBrush(isDarkTheme ? Color.FromArgb(220, 232, 249) : Color.FromArgb(59, 83, 113)))
+            {
+                g.DrawString("Trend", font, brush, 14, 12);
+                g.DrawString(trendBmis[trendBmis.Count - 1].ToString("F2", CultureInfo.InvariantCulture), font, brush, chartArea.Right - 44, 12);
+            }
+        }
+
+        private double MinTrendValue()
+        {
+            double min = trendBmis[0];
+            for (int i = 1; i < trendBmis.Count; i++)
+            {
+                if (trendBmis[i] < min)
+                {
+                    min = trendBmis[i];
+                }
+            }
+            return min;
+        }
+
+        private double MaxTrendValue()
+        {
+            double max = trendBmis[0];
+            for (int i = 1; i < trendBmis.Count; i++)
+            {
+                if (trendBmis[i] > max)
+                {
+                    max = trendBmis[i];
+                }
+            }
+            return max;
+        }
+
+        private void panelHeader_Paint(object sender, PaintEventArgs e)
+        {
+            var g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            Rectangle rect = panelHeader.ClientRectangle;
+
+            Color c1 = isDarkTheme ? Color.FromArgb(27, 64, 113) : Color.FromArgb(23, 108, 196);
+            Color c2 = isDarkTheme ? Color.FromArgb(18, 44, 81) : Color.FromArgb(17, 89, 164);
+            using (var bg = new LinearGradientBrush(rect, c1, c2, 25f))
+            {
+                g.FillRectangle(bg, rect);
+            }
+
+            int glowAlpha = 35 + (int)(Math.Sin(pulsePhase) * 18);
+            using (var glow = new SolidBrush(Color.FromArgb(Math.Max(8, glowAlpha), Color.White)))
+            {
+                g.FillEllipse(glow, rect.Width - 360, -140, 520, 260);
+                g.FillEllipse(glow, -220, -120, 420, 220);
+            }
+
+            using (var stroke = new Pen(isDarkTheme ? Color.FromArgb(62, 95, 140) : Color.FromArgb(71, 135, 205), 1.2f))
+            {
+                g.DrawRectangle(stroke, 0, 0, rect.Width - 1, rect.Height - 1);
+            }
         }
 
         private void panelDistribution_Paint(object sender, PaintEventArgs e)
@@ -623,8 +808,11 @@ namespace _1113354_陳冠瑋_BMI
                 btnTheme.ForeColor = Color.WhiteSmoke;
                 btnCopySummary.BackColor = Color.FromArgb(50, 58, 72);
                 btnCopySummary.ForeColor = Color.WhiteSmoke;
+                btnExportReport.BackColor = Color.FromArgb(50, 58, 72);
+                btnExportReport.ForeColor = Color.WhiteSmoke;
                 panelBmiRing.BackColor = Color.FromArgb(37, 46, 60);
                 panelDistribution.BackColor = Color.FromArgb(56, 64, 80);
+                panelTrend.BackColor = Color.FromArgb(44, 53, 67);
                 lblHint.ForeColor = Color.FromArgb(166, 179, 199);
                 listBoxHistory.BackColor = Color.FromArgb(38, 46, 58);
                 listBoxHistory.ForeColor = Color.FromArgb(226, 236, 248);
@@ -653,8 +841,11 @@ namespace _1113354_陳冠瑋_BMI
                 btnTheme.ForeColor = Color.FromArgb(41, 64, 92);
                 btnCopySummary.BackColor = Color.FromArgb(234, 242, 252);
                 btnCopySummary.ForeColor = Color.FromArgb(41, 64, 92);
+                btnExportReport.BackColor = Color.FromArgb(234, 242, 252);
+                btnExportReport.ForeColor = Color.FromArgb(41, 64, 92);
                 panelBmiRing.BackColor = Color.White;
                 panelDistribution.BackColor = Color.FromArgb(230, 238, 248);
+                panelTrend.BackColor = Color.FromArgb(241, 247, 255);
                 lblHint.ForeColor = Color.DimGray;
                 listBoxHistory.BackColor = Color.FromArgb(246, 251, 255);
                 listBoxHistory.ForeColor = Color.FromArgb(55, 74, 98);
@@ -664,7 +855,9 @@ namespace _1113354_陳冠瑋_BMI
             ApplyModernStyle();
             panelBmiRing.Invalidate();
             panelDistribution.Invalidate();
+            panelTrend.Invalidate();
             headerPulseTimer_Tick(this, EventArgs.Empty);
+            Invalidate();
         }
     }
 }

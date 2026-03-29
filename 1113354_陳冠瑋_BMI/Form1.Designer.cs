@@ -63,6 +63,8 @@
             this.lblResult = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBoxHistory = new System.Windows.Forms.GroupBox();
+            this.panelTrend = new System.Windows.Forms.Panel();
+            this.btnExportReport = new System.Windows.Forms.Button();
             this.btnCopySummary = new System.Windows.Forms.Button();
             this.listBoxHistory = new System.Windows.Forms.ListBox();
             this.lblHint = new System.Windows.Forms.Label();
@@ -96,6 +98,7 @@
             this.panelHeader.Name = "panelHeader";
             this.panelHeader.Size = new System.Drawing.Size(1220, 112);
             this.panelHeader.TabIndex = 0;
+            this.panelHeader.Paint += new System.Windows.Forms.PaintEventHandler(this.panelHeader_Paint);
             // 
             // lblDateTime
             // 
@@ -523,6 +526,8 @@
             // groupBoxHistory
             // 
             this.groupBoxHistory.BackColor = System.Drawing.Color.White;
+            this.groupBoxHistory.Controls.Add(this.panelTrend);
+            this.groupBoxHistory.Controls.Add(this.btnExportReport);
             this.groupBoxHistory.Controls.Add(this.btnCopySummary);
             this.groupBoxHistory.Controls.Add(this.listBoxHistory);
             this.groupBoxHistory.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -533,19 +538,48 @@
             this.groupBoxHistory.TabStop = false;
             this.groupBoxHistory.Text = "紀錄與報告";
             // 
+            // panelTrend
+            // 
+            this.panelTrend.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelTrend.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(247)))), ((int)(((byte)(255)))));
+            this.panelTrend.Location = new System.Drawing.Point(18, 30);
+            this.panelTrend.Name = "panelTrend";
+            this.panelTrend.Size = new System.Drawing.Size(254, 86);
+            this.panelTrend.TabIndex = 3;
+            this.toolTip1.SetToolTip(this.panelTrend, "BMI 趨勢圖");
+            this.panelTrend.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTrend_Paint);
+            // 
+            // btnExportReport
+            // 
+            this.btnExportReport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnExportReport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(252)))));
+            this.btnExportReport.FlatAppearance.BorderSize = 0;
+            this.btnExportReport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExportReport.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.btnExportReport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(64)))), ((int)(((byte)(92)))));
+            this.btnExportReport.Location = new System.Drawing.Point(18, 326);
+            this.btnExportReport.Name = "btnExportReport";
+            this.btnExportReport.Size = new System.Drawing.Size(122, 34);
+            this.btnExportReport.TabIndex = 2;
+            this.btnExportReport.Text = "匯出報告";
+            this.toolTip1.SetToolTip(this.btnExportReport, "匯出 BMI 趨勢與結果報告");
+            this.btnExportReport.UseVisualStyleBackColor = false;
+            this.btnExportReport.Click += new System.EventHandler(this.btnExportReport_Click);
+            // 
             // btnCopySummary
             // 
-            this.btnCopySummary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnCopySummary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCopySummary.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(252)))));
             this.btnCopySummary.FlatAppearance.BorderSize = 0;
             this.btnCopySummary.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCopySummary.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnCopySummary.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(64)))), ((int)(((byte)(92)))));
-            this.btnCopySummary.Location = new System.Drawing.Point(18, 326);
+            this.btnCopySummary.Location = new System.Drawing.Point(150, 326);
             this.btnCopySummary.Name = "btnCopySummary";
-            this.btnCopySummary.Size = new System.Drawing.Size(254, 34);
+            this.btnCopySummary.Size = new System.Drawing.Size(122, 34);
             this.btnCopySummary.TabIndex = 1;
-            this.btnCopySummary.Text = "複製本次 BMI 報告";
+            this.btnCopySummary.Text = "複製摘要";
             this.toolTip1.SetToolTip(this.btnCopySummary, "複製文字報告，可貼到作業或聊天");
             this.btnCopySummary.UseVisualStyleBackColor = false;
             this.btnCopySummary.Click += new System.EventHandler(this.btnCopySummary_Click);
@@ -561,9 +595,9 @@
             this.listBoxHistory.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(74)))), ((int)(((byte)(98)))));
             this.listBoxHistory.FormattingEnabled = true;
             this.listBoxHistory.ItemHeight = 23;
-            this.listBoxHistory.Location = new System.Drawing.Point(18, 30);
+            this.listBoxHistory.Location = new System.Drawing.Point(18, 124);
             this.listBoxHistory.Name = "listBoxHistory";
-            this.listBoxHistory.Size = new System.Drawing.Size(254, 230);
+            this.listBoxHistory.Size = new System.Drawing.Size(254, 184);
             this.listBoxHistory.TabIndex = 0;
             // 
             // lblHint
@@ -667,6 +701,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblResult;
         private System.Windows.Forms.GroupBox groupBoxHistory;
+        private System.Windows.Forms.Panel panelTrend;
+        private System.Windows.Forms.Button btnExportReport;
         private System.Windows.Forms.Button btnCopySummary;
         private System.Windows.Forms.ListBox listBoxHistory;
         private System.Windows.Forms.Button btnClear;
