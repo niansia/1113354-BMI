@@ -598,7 +598,7 @@
             // Form1
             // 
             this.AcceptButton = this.btnRun;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(249)))), ((int)(((byte)(255)))));
             this.CancelButton = this.btnClear;
@@ -608,7 +608,7 @@
             this.Controls.Add(this.lblHint);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.MinimumSize = new System.Drawing.Size(900, 620);
+            this.MinimumSize = new System.Drawing.Size(1260, 732);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "BMI計算機";
