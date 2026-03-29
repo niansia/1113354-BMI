@@ -52,7 +52,9 @@ namespace _1113354_陳冠瑋_BMI
             Paint += Form1_Paint;
             clockTimer.Start();
             clockTimer_Tick(this, EventArgs.Empty);
+            splitContainerMain.Panel2Collapsed = false;
             ConfigureSplitLayout();
+            LayoutHistoryPanel();
             txtHeight.Focus();
         }
 
@@ -73,11 +75,13 @@ namespace _1113354_陳冠瑋_BMI
         private void Form1_Shown(object sender, EventArgs e)
         {
             ConfigureSplitLayout();
+            LayoutHistoryPanel();
         }
 
         private void splitContainerMain_SplitterMoved(object sender, SplitterEventArgs e)
         {
             ConfigureSplitLayout();
+            LayoutHistoryPanel();
         }
 
         private void ConfigureSplitLayout()
@@ -101,6 +105,38 @@ namespace _1113354_陳冠瑋_BMI
             {
                 splitContainerMain.SplitterDistance = distance;
             }
+        }
+
+        private void LayoutHistoryPanel()
+        {
+            int width = groupBoxHistory.ClientSize.Width;
+            int height = groupBoxHistory.ClientSize.Height;
+            if (width <= 0 || height <= 0)
+            {
+                return;
+            }
+
+            const int margin = 14;
+            const int top = 30;
+            const int spacing = 10;
+            const int buttonHeight = 38;
+            const int buttonGap = 8;
+
+            int trendHeight = Math.Max(90, (int)Math.Round(height * 0.24));
+            panelTrend.SetBounds(margin, top, width - margin * 2, trendHeight);
+
+            int buttonsTop = height - margin - (buttonHeight * 2 + buttonGap);
+            int listTop = panelTrend.Bottom + spacing;
+            int listHeight = Math.Max(100, buttonsTop - spacing - listTop);
+            listBoxHistory.SetBounds(margin, listTop, width - margin * 2, listHeight);
+
+            btnExportReport.SetBounds(margin, buttonsTop, width - margin * 2, buttonHeight);
+            btnCopySummary.SetBounds(margin, buttonsTop + buttonHeight + buttonGap, width - margin * 2, buttonHeight);
+
+            panelTrend.Visible = true;
+            listBoxHistory.Visible = true;
+            btnExportReport.Visible = true;
+            btnCopySummary.Visible = true;
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -530,6 +566,7 @@ namespace _1113354_陳冠瑋_BMI
         {
             ApplyModernStyle();
             ConfigureSplitLayout();
+            LayoutHistoryPanel();
             UpdateDistributionMarker(targetBmi > 0 ? targetBmi : DistributionMin);
             panelBmiRing.Invalidate();
             panelDistribution.Invalidate();
