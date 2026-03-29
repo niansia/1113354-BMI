@@ -451,11 +451,13 @@
             // 
             // progressBarBmi
             // 
+            this.progressBarBmi.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBarBmi.Location = new System.Drawing.Point(255, 130);
             this.progressBarBmi.Maximum = 400;
             this.progressBarBmi.Minimum = 100;
             this.progressBarBmi.Name = "progressBarBmi";
-            this.progressBarBmi.Size = new System.Drawing.Size(392, 22);
+            this.progressBarBmi.Size = new System.Drawing.Size(646, 22);
             this.progressBarBmi.Step = 1;
             this.progressBarBmi.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBarBmi.TabIndex = 5;
@@ -612,6 +614,7 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "BMI計算機";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panelHeader.ResumeLayout(false);
             this.panelHeader.PerformLayout();
             this.groupBox1.ResumeLayout(false);
