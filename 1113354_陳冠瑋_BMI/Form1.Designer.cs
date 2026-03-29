@@ -289,7 +289,7 @@
             // splitContainerMain.Panel2
             // 
             this.splitContainerMain.Panel2.Controls.Add(this.groupBoxHistory);
-            this.splitContainerMain.Panel2MinSize = 280;
+            this.splitContainerMain.Panel2MinSize = 340;
             this.splitContainerMain.Size = new System.Drawing.Size(1830, 562);
             this.splitContainerMain.SplitterDistance = 1534;
             this.splitContainerMain.SplitterWidth = 6;
@@ -607,6 +607,7 @@
             this.panelTrend.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelTrend.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(247)))), ((int)(((byte)(255)))));
+            this.panelTrend.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelTrend.Location = new System.Drawing.Point(27, 45);
             this.panelTrend.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panelTrend.Name = "panelTrend";
@@ -617,16 +618,17 @@
             // 
             // btnExportReport
             // 
-            this.btnExportReport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnExportReport.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExportReport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(252)))));
             this.btnExportReport.FlatAppearance.BorderSize = 0;
             this.btnExportReport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExportReport.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnExportReport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(64)))), ((int)(((byte)(92)))));
-            this.btnExportReport.Location = new System.Drawing.Point(27, 489);
+            this.btnExportReport.Location = new System.Drawing.Point(27, 442);
             this.btnExportReport.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnExportReport.Name = "btnExportReport";
-            this.btnExportReport.Size = new System.Drawing.Size(183, 51);
+            this.btnExportReport.Size = new System.Drawing.Size(236, 42);
             this.btnExportReport.TabIndex = 2;
             this.btnExportReport.Text = "匯出報告";
             this.toolTip1.SetToolTip(this.btnExportReport, "匯出 BMI 趨勢與結果報告");
@@ -635,16 +637,17 @@
             // 
             // btnCopySummary
             // 
-            this.btnCopySummary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCopySummary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCopySummary.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(252)))));
             this.btnCopySummary.FlatAppearance.BorderSize = 0;
             this.btnCopySummary.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCopySummary.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnCopySummary.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(64)))), ((int)(((byte)(92)))));
-            this.btnCopySummary.Location = new System.Drawing.Point(80, 489);
+            this.btnCopySummary.Location = new System.Drawing.Point(27, 498);
             this.btnCopySummary.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCopySummary.Name = "btnCopySummary";
-            this.btnCopySummary.Size = new System.Drawing.Size(183, 51);
+            this.btnCopySummary.Size = new System.Drawing.Size(236, 42);
             this.btnCopySummary.TabIndex = 1;
             this.btnCopySummary.Text = "複製摘要";
             this.toolTip1.SetToolTip(this.btnCopySummary, "複製文字報告，可貼到作業或聊天");
@@ -657,7 +660,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxHistory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(251)))), ((int)(((byte)(255)))));
-            this.listBoxHistory.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listBoxHistory.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listBoxHistory.Font = new System.Drawing.Font("Consolas", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listBoxHistory.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(74)))), ((int)(((byte)(98)))));
             this.listBoxHistory.FormattingEnabled = true;
@@ -665,7 +668,7 @@
             this.listBoxHistory.Location = new System.Drawing.Point(27, 186);
             this.listBoxHistory.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.listBoxHistory.Name = "listBoxHistory";
-            this.listBoxHistory.Size = new System.Drawing.Size(236, 276);
+            this.listBoxHistory.Size = new System.Drawing.Size(236, 230);
             this.listBoxHistory.TabIndex = 0;
             // 
             // lblHint

@@ -19,7 +19,7 @@ namespace _1113354_陳冠瑋_BMI
         private const double Obese2Threshold = 35;
         private const double DistributionMin = 10;
         private const double DistributionMax = 40;
-        private const int SidePanelPreferredWidth = 320;
+        private const int SidePanelPreferredWidth = 360;
 
         private bool isDarkTheme;
         private double animatedBmi;
