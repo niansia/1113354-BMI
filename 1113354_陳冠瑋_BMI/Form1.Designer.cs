@@ -54,6 +54,8 @@
             this.lblPercentile = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.panelBmiRing = new System.Windows.Forms.Panel();
+            this.lblDistributionInfo = new System.Windows.Forms.Label();
+            this.lblGaugeInfo = new System.Windows.Forms.Label();
             this.panelDistribution = new System.Windows.Forms.Panel();
             this.panelMarker = new System.Windows.Forms.Panel();
             this.progressBarBmi = new System.Windows.Forms.ProgressBar();
@@ -94,9 +96,10 @@
             this.panelHeader.Controls.Add(this.btnTheme);
             this.panelHeader.Controls.Add(this.lblSubtitle);
             this.panelHeader.Controls.Add(this.lblTitle);
-            this.panelHeader.Location = new System.Drawing.Point(20, 18);
+            this.panelHeader.Location = new System.Drawing.Point(30, 27);
+            this.panelHeader.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panelHeader.Name = "panelHeader";
-            this.panelHeader.Size = new System.Drawing.Size(1220, 112);
+            this.panelHeader.Size = new System.Drawing.Size(1830, 168);
             this.panelHeader.TabIndex = 0;
             this.panelHeader.Paint += new System.Windows.Forms.PaintEventHandler(this.panelHeader_Paint);
             // 
@@ -105,9 +108,10 @@
             this.lblDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblDateTime.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDateTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(241)))), ((int)(((byte)(255)))));
-            this.lblDateTime.Location = new System.Drawing.Point(920, 14);
+            this.lblDateTime.Location = new System.Drawing.Point(1380, 21);
+            this.lblDateTime.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDateTime.Name = "lblDateTime";
-            this.lblDateTime.Size = new System.Drawing.Size(283, 24);
+            this.lblDateTime.Size = new System.Drawing.Size(424, 36);
             this.lblDateTime.TabIndex = 3;
             this.lblDateTime.Text = "--";
             this.lblDateTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -120,9 +124,10 @@
             this.btnTheme.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTheme.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnTheme.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(64)))), ((int)(((byte)(92)))));
-            this.btnTheme.Location = new System.Drawing.Point(1082, 49);
+            this.btnTheme.Location = new System.Drawing.Point(1623, 74);
+            this.btnTheme.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnTheme.Name = "btnTheme";
-            this.btnTheme.Size = new System.Drawing.Size(121, 38);
+            this.btnTheme.Size = new System.Drawing.Size(182, 57);
             this.btnTheme.TabIndex = 2;
             this.btnTheme.Text = "深色模式";
             this.toolTip1.SetToolTip(this.btnTheme, "切換深色 / 淺色介面");
@@ -134,7 +139,8 @@
             this.lblSubtitle.AutoSize = true;
             this.lblSubtitle.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblSubtitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(241)))), ((int)(((byte)(255)))));
-            this.lblSubtitle.Location = new System.Drawing.Point(28, 68);
+            this.lblSubtitle.Location = new System.Drawing.Point(42, 102);
+            this.lblSubtitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSubtitle.Name = "lblSubtitle";
             this.lblSubtitle.Size = new System.Drawing.Size(306, 27);
             this.lblSubtitle.TabIndex = 1;
@@ -145,7 +151,8 @@
             this.lblTitle.AutoSize = true;
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 22.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.ForeColor = System.Drawing.Color.White;
-            this.lblTitle.Location = new System.Drawing.Point(22, 8);
+            this.lblTitle.Location = new System.Drawing.Point(33, 12);
+            this.lblTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(340, 61);
             this.lblTitle.TabIndex = 0;
@@ -162,10 +169,11 @@
             this.groupBox1.Controls.Add(this.txtWeight);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtHeight);
-            this.groupBox1.Location = new System.Drawing.Point(20, 148);
+            this.groupBox1.Location = new System.Drawing.Point(30, 222);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(16, 12, 16, 18);
-            this.groupBox1.Size = new System.Drawing.Size(1220, 188);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(24, 18, 24, 27);
+            this.groupBox1.Size = new System.Drawing.Size(1830, 282);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "輸入";
@@ -180,9 +188,10 @@
             this.btnClear.FlatAppearance.BorderSize = 0;
             this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClear.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnClear.Location = new System.Drawing.Point(1015, 109);
+            this.btnClear.Location = new System.Drawing.Point(1522, 164);
+            this.btnClear.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(177, 46);
+            this.btnClear.Size = new System.Drawing.Size(266, 69);
             this.btnClear.TabIndex = 5;
             this.btnClear.Text = "清除";
             this.toolTip1.SetToolTip(this.btnClear, "清空所有欄位");
@@ -197,9 +206,10 @@
             this.btnRun.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRun.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnRun.ForeColor = System.Drawing.Color.White;
-            this.btnRun.Location = new System.Drawing.Point(1015, 45);
+            this.btnRun.Location = new System.Drawing.Point(1522, 68);
+            this.btnRun.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnRun.Name = "btnRun";
-            this.btnRun.Size = new System.Drawing.Size(177, 52);
+            this.btnRun.Size = new System.Drawing.Size(266, 78);
             this.btnRun.TabIndex = 4;
             this.btnRun.Text = "計算";
             this.toolTip1.SetToolTip(this.btnRun, "計算 BMI");
@@ -211,7 +221,8 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(80)))), ((int)(((byte)(110)))));
-            this.label2.Location = new System.Drawing.Point(36, 112);
+            this.label2.Location = new System.Drawing.Point(54, 168);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(107, 31);
             this.label2.TabIndex = 2;
@@ -224,9 +235,10 @@
             this.txtWeight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(252)))), ((int)(((byte)(255)))));
             this.txtWeight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtWeight.Font = new System.Drawing.Font("Segoe UI", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtWeight.Location = new System.Drawing.Point(152, 106);
+            this.txtWeight.Location = new System.Drawing.Point(228, 159);
+            this.txtWeight.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtWeight.Name = "txtWeight";
-            this.txtWeight.Size = new System.Drawing.Size(822, 43);
+            this.txtWeight.Size = new System.Drawing.Size(1232, 43);
             this.txtWeight.TabIndex = 3;
             this.toolTip1.SetToolTip(this.txtWeight, "請輸入公斤，例如 65");
             this.txtWeight.TextChanged += new System.EventHandler(this.txtInput_TextChanged);
@@ -237,7 +249,8 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(80)))), ((int)(((byte)(110)))));
-            this.label1.Location = new System.Drawing.Point(36, 52);
+            this.label1.Location = new System.Drawing.Point(54, 78);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(113, 31);
             this.label1.TabIndex = 0;
@@ -250,9 +263,10 @@
             this.txtHeight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(252)))), ((int)(((byte)(255)))));
             this.txtHeight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtHeight.Font = new System.Drawing.Font("Segoe UI", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtHeight.Location = new System.Drawing.Point(152, 46);
+            this.txtHeight.Location = new System.Drawing.Point(228, 69);
+            this.txtHeight.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtHeight.Name = "txtHeight";
-            this.txtHeight.Size = new System.Drawing.Size(822, 43);
+            this.txtHeight.Size = new System.Drawing.Size(1232, 43);
             this.txtHeight.TabIndex = 1;
             this.toolTip1.SetToolTip(this.txtHeight, "請輸入公分，例如 170");
             this.txtHeight.TextChanged += new System.EventHandler(this.txtInput_TextChanged);
@@ -264,7 +278,8 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainerMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainerMain.Location = new System.Drawing.Point(20, 350);
+            this.splitContainerMain.Location = new System.Drawing.Point(30, 525);
+            this.splitContainerMain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.splitContainerMain.Name = "splitContainerMain";
             // 
             // splitContainerMain.Panel1
@@ -275,8 +290,9 @@
             // 
             this.splitContainerMain.Panel2.Controls.Add(this.groupBoxHistory);
             this.splitContainerMain.Panel2MinSize = 280;
-            this.splitContainerMain.Size = new System.Drawing.Size(1220, 375);
-            this.splitContainerMain.SplitterDistance = 926;
+            this.splitContainerMain.Size = new System.Drawing.Size(1830, 562);
+            this.splitContainerMain.SplitterDistance = 1534;
+            this.splitContainerMain.SplitterWidth = 6;
             this.splitContainerMain.TabIndex = 2;
             // 
             // groupBox2
@@ -293,6 +309,8 @@
             this.groupBox2.Controls.Add(this.lblPercentile);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.panelBmiRing);
+            this.groupBox2.Controls.Add(this.lblDistributionInfo);
+            this.groupBox2.Controls.Add(this.lblGaugeInfo);
             this.groupBox2.Controls.Add(this.panelDistribution);
             this.groupBox2.Controls.Add(this.progressBarBmi);
             this.groupBox2.Controls.Add(this.lblHealthyRange);
@@ -302,13 +320,38 @@
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(16, 12, 16, 18);
-            this.groupBox2.Size = new System.Drawing.Size(926, 375);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(24, 18, 24, 27);
+            this.groupBox2.Size = new System.Drawing.Size(1534, 562);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "計算結果";
             this.toolTip1.SetToolTip(this.groupBox2, "顯示 BMI 與判定結果");
+            // 
+            // lblDistributionInfo
+            // 
+            this.lblDistributionInfo.AutoSize = true;
+            this.lblDistributionInfo.Font = new System.Drawing.Font("微軟正黑體", 8.4F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.lblDistributionInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(117)))), ((int)(((byte)(141)))));
+            this.lblDistributionInfo.Location = new System.Drawing.Point(377, 312);
+            this.lblDistributionInfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDistributionInfo.Name = "lblDistributionInfo";
+            this.lblDistributionInfo.Size = new System.Drawing.Size(369, 20);
+            this.lblDistributionInfo.TabIndex = 19;
+            this.lblDistributionInfo.Text = "色帶說明：藍=過輕、綠=正常、橘=過重、紅=肥胖";
+            // 
+            // lblGaugeInfo
+            // 
+            this.lblGaugeInfo.AutoSize = true;
+            this.lblGaugeInfo.Font = new System.Drawing.Font("微軟正黑體", 8.4F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.lblGaugeInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(117)))), ((int)(((byte)(141)))));
+            this.lblGaugeInfo.Location = new System.Drawing.Point(377, 233);
+            this.lblGaugeInfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblGaugeInfo.Name = "lblGaugeInfo";
+            this.lblGaugeInfo.Size = new System.Drawing.Size(321, 20);
+            this.lblGaugeInfo.TabIndex = 18;
+            this.lblGaugeInfo.Text = "進度條說明：用來顯示 BMI 在 10~40 的位置";
             // 
             // lblTargetWeight
             // 
@@ -316,9 +359,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTargetWeight.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblTargetWeight.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(87)))), ((int)(((byte)(114)))));
-            this.lblTargetWeight.Location = new System.Drawing.Point(333, 341);
+            this.lblTargetWeight.Location = new System.Drawing.Point(500, 512);
+            this.lblTargetWeight.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTargetWeight.Name = "lblTargetWeight";
-            this.lblTargetWeight.Size = new System.Drawing.Size(568, 23);
+            this.lblTargetWeight.Size = new System.Drawing.Size(997, 34);
             this.lblTargetWeight.TabIndex = 16;
             this.lblTargetWeight.Text = "目標體重：--";
             // 
@@ -327,7 +371,8 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(78)))), ((int)(((byte)(98)))));
-            this.label9.Location = new System.Drawing.Point(239, 341);
+            this.label9.Location = new System.Drawing.Point(358, 512);
+            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(96, 26);
             this.label9.TabIndex = 15;
@@ -339,9 +384,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblDeltaToNormal.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblDeltaToNormal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(87)))), ((int)(((byte)(114)))));
-            this.lblDeltaToNormal.Location = new System.Drawing.Point(334, 312);
+            this.lblDeltaToNormal.Location = new System.Drawing.Point(501, 468);
+            this.lblDeltaToNormal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDeltaToNormal.Name = "lblDeltaToNormal";
-            this.lblDeltaToNormal.Size = new System.Drawing.Size(568, 23);
+            this.lblDeltaToNormal.Size = new System.Drawing.Size(997, 34);
             this.lblDeltaToNormal.TabIndex = 14;
             this.lblDeltaToNormal.Text = "距離正常區間：--";
             // 
@@ -350,7 +396,8 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(78)))), ((int)(((byte)(98)))));
-            this.label8.Location = new System.Drawing.Point(239, 312);
+            this.label8.Location = new System.Drawing.Point(358, 468);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(96, 26);
             this.label8.TabIndex = 13;
@@ -362,9 +409,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblAdvice.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblAdvice.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(87)))), ((int)(((byte)(114)))));
-            this.lblAdvice.Location = new System.Drawing.Point(334, 283);
+            this.lblAdvice.Location = new System.Drawing.Point(501, 424);
+            this.lblAdvice.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblAdvice.Name = "lblAdvice";
-            this.lblAdvice.Size = new System.Drawing.Size(568, 23);
+            this.lblAdvice.Size = new System.Drawing.Size(997, 34);
             this.lblAdvice.TabIndex = 12;
             this.lblAdvice.Text = "建議：--";
             // 
@@ -373,7 +421,8 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(78)))), ((int)(((byte)(98)))));
-            this.label7.Location = new System.Drawing.Point(273, 283);
+            this.label7.Location = new System.Drawing.Point(410, 424);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(54, 26);
             this.label7.TabIndex = 11;
@@ -385,9 +434,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblRisk.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblRisk.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(87)))), ((int)(((byte)(114)))));
-            this.lblRisk.Location = new System.Drawing.Point(333, 254);
+            this.lblRisk.Location = new System.Drawing.Point(500, 381);
+            this.lblRisk.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblRisk.Name = "lblRisk";
-            this.lblRisk.Size = new System.Drawing.Size(568, 23);
+            this.lblRisk.Size = new System.Drawing.Size(997, 34);
             this.lblRisk.TabIndex = 10;
             this.lblRisk.Text = "風險等級：--";
             // 
@@ -396,7 +446,8 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(78)))), ((int)(((byte)(98)))));
-            this.label6.Location = new System.Drawing.Point(273, 254);
+            this.label6.Location = new System.Drawing.Point(410, 381);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(54, 26);
             this.label6.TabIndex = 9;
@@ -408,9 +459,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPercentile.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblPercentile.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(87)))), ((int)(((byte)(114)))));
-            this.lblPercentile.Location = new System.Drawing.Point(333, 225);
+            this.lblPercentile.Location = new System.Drawing.Point(500, 338);
+            this.lblPercentile.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPercentile.Name = "lblPercentile";
-            this.lblPercentile.Size = new System.Drawing.Size(568, 23);
+            this.lblPercentile.Size = new System.Drawing.Size(997, 34);
             this.lblPercentile.TabIndex = 8;
             this.lblPercentile.Text = "超越比例：--";
             // 
@@ -419,7 +471,8 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(78)))), ((int)(((byte)(98)))));
-            this.label5.Location = new System.Drawing.Point(273, 225);
+            this.label5.Location = new System.Drawing.Point(410, 338);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(54, 26);
             this.label5.TabIndex = 7;
@@ -428,9 +481,10 @@
             // panelBmiRing
             // 
             this.panelBmiRing.BackColor = System.Drawing.Color.White;
-            this.panelBmiRing.Location = new System.Drawing.Point(20, 93);
+            this.panelBmiRing.Location = new System.Drawing.Point(30, 140);
+            this.panelBmiRing.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panelBmiRing.Name = "panelBmiRing";
-            this.panelBmiRing.Size = new System.Drawing.Size(212, 180);
+            this.panelBmiRing.Size = new System.Drawing.Size(318, 270);
             this.panelBmiRing.TabIndex = 17;
             this.panelBmiRing.Paint += new System.Windows.Forms.PaintEventHandler(this.panelBmiRing_Paint);
             // 
@@ -438,9 +492,10 @@
             // 
             this.panelDistribution.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(238)))), ((int)(((byte)(248)))));
             this.panelDistribution.Controls.Add(this.panelMarker);
-            this.panelDistribution.Location = new System.Drawing.Point(255, 174);
+            this.panelDistribution.Location = new System.Drawing.Point(382, 261);
+            this.panelDistribution.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panelDistribution.Name = "panelDistribution";
-            this.panelDistribution.Size = new System.Drawing.Size(392, 30);
+            this.panelDistribution.Size = new System.Drawing.Size(588, 45);
             this.panelDistribution.TabIndex = 6;
             this.panelDistribution.Paint += new System.Windows.Forms.PaintEventHandler(this.panelDistribution_Paint);
             // 
@@ -448,19 +503,21 @@
             // 
             this.panelMarker.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(111)))), ((int)(((byte)(186)))));
             this.panelMarker.Location = new System.Drawing.Point(0, 0);
+            this.panelMarker.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panelMarker.Name = "panelMarker";
-            this.panelMarker.Size = new System.Drawing.Size(6, 30);
+            this.panelMarker.Size = new System.Drawing.Size(9, 45);
             this.panelMarker.TabIndex = 0;
             // 
             // progressBarBmi
             // 
-            this.progressBarBmi.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.progressBarBmi.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBarBmi.Location = new System.Drawing.Point(255, 130);
+            this.progressBarBmi.Location = new System.Drawing.Point(382, 195);
+            this.progressBarBmi.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.progressBarBmi.Maximum = 400;
             this.progressBarBmi.Minimum = 100;
             this.progressBarBmi.Name = "progressBarBmi";
-            this.progressBarBmi.Size = new System.Drawing.Size(646, 22);
+            this.progressBarBmi.Size = new System.Drawing.Size(1114, 33);
             this.progressBarBmi.Step = 1;
             this.progressBarBmi.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBarBmi.TabIndex = 5;
@@ -471,7 +528,8 @@
             this.lblHealthyRange.AutoSize = true;
             this.lblHealthyRange.Font = new System.Drawing.Font("微軟正黑體", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblHealthyRange.ForeColor = System.Drawing.Color.DimGray;
-            this.lblHealthyRange.Location = new System.Drawing.Point(250, 33);
+            this.lblHealthyRange.Location = new System.Drawing.Point(375, 50);
+            this.lblHealthyRange.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblHealthyRange.Name = "lblHealthyRange";
             this.lblHealthyRange.Size = new System.Drawing.Size(186, 28);
             this.lblHealthyRange.TabIndex = 4;
@@ -482,10 +540,11 @@
             this.lblCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCategory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(247)))), ((int)(((byte)(255)))));
             this.lblCategory.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.lblCategory.Location = new System.Drawing.Point(779, 29);
+            this.lblCategory.Location = new System.Drawing.Point(1313, 44);
+            this.lblCategory.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCategory.Name = "lblCategory";
-            this.lblCategory.Padding = new System.Windows.Forms.Padding(12, 6, 12, 6);
-            this.lblCategory.Size = new System.Drawing.Size(123, 31);
+            this.lblCategory.Padding = new System.Windows.Forms.Padding(18, 9, 18, 9);
+            this.lblCategory.Size = new System.Drawing.Size(184, 46);
             this.lblCategory.TabIndex = 3;
             this.lblCategory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -494,7 +553,8 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("微軟正黑體", 11.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(78)))), ((int)(((byte)(98)))));
-            this.label4.Location = new System.Drawing.Point(465, 32);
+            this.label4.Location = new System.Drawing.Point(729, 49);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(59, 29);
             this.label4.TabIndex = 2;
@@ -505,10 +565,11 @@
             this.lblResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblResult.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(247)))), ((int)(((byte)(255)))));
             this.lblResult.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResult.Location = new System.Drawing.Point(779, 100);
+            this.lblResult.Location = new System.Drawing.Point(1313, 150);
+            this.lblResult.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblResult.Name = "lblResult";
-            this.lblResult.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.lblResult.Size = new System.Drawing.Size(123, 31);
+            this.lblResult.Padding = new System.Windows.Forms.Padding(12, 0, 0, 0);
+            this.lblResult.Size = new System.Drawing.Size(184, 46);
             this.lblResult.TabIndex = 1;
             this.lblResult.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -517,7 +578,8 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("微軟正黑體", 11.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(78)))), ((int)(((byte)(98)))));
-            this.label3.Location = new System.Drawing.Point(269, 66);
+            this.label3.Location = new System.Drawing.Point(377, 99);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(218, 29);
             this.label3.TabIndex = 0;
@@ -532,8 +594,10 @@
             this.groupBoxHistory.Controls.Add(this.listBoxHistory);
             this.groupBoxHistory.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxHistory.Location = new System.Drawing.Point(0, 0);
+            this.groupBoxHistory.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBoxHistory.Name = "groupBoxHistory";
-            this.groupBoxHistory.Size = new System.Drawing.Size(290, 375);
+            this.groupBoxHistory.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxHistory.Size = new System.Drawing.Size(290, 562);
             this.groupBoxHistory.TabIndex = 0;
             this.groupBoxHistory.TabStop = false;
             this.groupBoxHistory.Text = "紀錄與報告";
@@ -543,9 +607,10 @@
             this.panelTrend.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelTrend.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(247)))), ((int)(((byte)(255)))));
-            this.panelTrend.Location = new System.Drawing.Point(18, 30);
+            this.panelTrend.Location = new System.Drawing.Point(27, 45);
+            this.panelTrend.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panelTrend.Name = "panelTrend";
-            this.panelTrend.Size = new System.Drawing.Size(254, 86);
+            this.panelTrend.Size = new System.Drawing.Size(236, 129);
             this.panelTrend.TabIndex = 3;
             this.toolTip1.SetToolTip(this.panelTrend, "BMI 趨勢圖");
             this.panelTrend.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTrend_Paint);
@@ -558,9 +623,10 @@
             this.btnExportReport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExportReport.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnExportReport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(64)))), ((int)(((byte)(92)))));
-            this.btnExportReport.Location = new System.Drawing.Point(18, 326);
+            this.btnExportReport.Location = new System.Drawing.Point(27, 489);
+            this.btnExportReport.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnExportReport.Name = "btnExportReport";
-            this.btnExportReport.Size = new System.Drawing.Size(122, 34);
+            this.btnExportReport.Size = new System.Drawing.Size(183, 51);
             this.btnExportReport.TabIndex = 2;
             this.btnExportReport.Text = "匯出報告";
             this.toolTip1.SetToolTip(this.btnExportReport, "匯出 BMI 趨勢與結果報告");
@@ -575,9 +641,10 @@
             this.btnCopySummary.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCopySummary.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnCopySummary.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(64)))), ((int)(((byte)(92)))));
-            this.btnCopySummary.Location = new System.Drawing.Point(150, 326);
+            this.btnCopySummary.Location = new System.Drawing.Point(80, 489);
+            this.btnCopySummary.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCopySummary.Name = "btnCopySummary";
-            this.btnCopySummary.Size = new System.Drawing.Size(122, 34);
+            this.btnCopySummary.Size = new System.Drawing.Size(183, 51);
             this.btnCopySummary.TabIndex = 1;
             this.btnCopySummary.Text = "複製摘要";
             this.toolTip1.SetToolTip(this.btnCopySummary, "複製文字報告，可貼到作業或聊天");
@@ -595,9 +662,10 @@
             this.listBoxHistory.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(74)))), ((int)(((byte)(98)))));
             this.listBoxHistory.FormattingEnabled = true;
             this.listBoxHistory.ItemHeight = 23;
-            this.listBoxHistory.Location = new System.Drawing.Point(18, 124);
+            this.listBoxHistory.Location = new System.Drawing.Point(27, 186);
+            this.listBoxHistory.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.listBoxHistory.Name = "listBoxHistory";
-            this.listBoxHistory.Size = new System.Drawing.Size(254, 184);
+            this.listBoxHistory.Size = new System.Drawing.Size(236, 276);
             this.listBoxHistory.TabIndex = 0;
             // 
             // lblHint
@@ -606,7 +674,8 @@
             this.lblHint.AutoSize = true;
             this.lblHint.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblHint.ForeColor = System.Drawing.Color.DimGray;
-            this.lblHint.Location = new System.Drawing.Point(24, 656);
+            this.lblHint.Location = new System.Drawing.Point(36, 984);
+            this.lblHint.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblHint.Name = "lblHint";
             this.lblHint.Size = new System.Drawing.Size(577, 27);
             this.lblHint.TabIndex = 3;
@@ -634,17 +703,18 @@
             // Form1
             // 
             this.AcceptButton = this.btnRun;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(249)))), ((int)(((byte)(255)))));
             this.CancelButton = this.btnClear;
-            this.ClientSize = new System.Drawing.Size(1260, 732);
+            this.ClientSize = new System.Drawing.Size(1890, 1098);
             this.Controls.Add(this.splitContainerMain);
             this.Controls.Add(this.panelHeader);
             this.Controls.Add(this.lblHint);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.MinimumSize = new System.Drawing.Size(1260, 732);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MinimumSize = new System.Drawing.Size(1879, 1070);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "BMI計算機";
@@ -692,6 +762,8 @@
         private System.Windows.Forms.Label lblPercentile;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panelBmiRing;
+        private System.Windows.Forms.Label lblDistributionInfo;
+        private System.Windows.Forms.Label lblGaugeInfo;
         private System.Windows.Forms.Panel panelDistribution;
         private System.Windows.Forms.Panel panelMarker;
         private System.Windows.Forms.ProgressBar progressBarBmi;

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 
@@ -18,6 +19,7 @@ namespace _1113354_陳冠瑋_BMI
         private const double Obese2Threshold = 35;
         private const double DistributionMin = 10;
         private const double DistributionMax = 40;
+        private const int SidePanelPreferredWidth = 320;
 
         private bool isDarkTheme;
         private double animatedBmi;
@@ -25,7 +27,6 @@ namespace _1113354_陳冠瑋_BMI
         private double targetBmi;
         private int targetGauge;
         private double latestHeightMeter;
-        private double pulsePhase;
         private readonly List<double> trendBmis = new List<double>();
         private readonly List<DateTime> trendTimes = new List<DateTime>();
 
@@ -34,6 +35,10 @@ namespace _1113354_陳冠瑋_BMI
             InitializeComponent();
             SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
             ApplyModernStyle();
+            EnableDoubleBuffer(panelHeader);
+            EnableDoubleBuffer(panelDistribution);
+            EnableDoubleBuffer(panelTrend);
+            EnableDoubleBuffer(panelBmiRing);
             ApplyTheme(false);
             ResetResultDisplay();
             Resize += Form1_Resize;
@@ -42,11 +47,60 @@ namespace _1113354_陳冠瑋_BMI
             btnClear.MouseEnter += BtnClear_MouseEnter;
             btnClear.MouseLeave += BtnClear_MouseLeave;
             panelDistribution.Resize += PanelDistribution_Resize;
+            splitContainerMain.SplitterMoved += splitContainerMain_SplitterMoved;
+            Shown += Form1_Shown;
             Paint += Form1_Paint;
             clockTimer.Start();
-            headerPulseTimer.Start();
             clockTimer_Tick(this, EventArgs.Empty);
+            ConfigureSplitLayout();
             txtHeight.Focus();
+        }
+
+        private void EnableDoubleBuffer(Control control)
+        {
+            if (control == null)
+            {
+                return;
+            }
+
+            var property = typeof(Control).GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (property != null)
+            {
+                property.SetValue(control, true, null);
+            }
+        }
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            ConfigureSplitLayout();
+        }
+
+        private void splitContainerMain_SplitterMoved(object sender, SplitterEventArgs e)
+        {
+            ConfigureSplitLayout();
+        }
+
+        private void ConfigureSplitLayout()
+        {
+            int totalWidth = splitContainerMain.Width;
+            if (totalWidth <= 0)
+            {
+                return;
+            }
+
+            int target = totalWidth - SidePanelPreferredWidth - splitContainerMain.SplitterWidth;
+            int min = splitContainerMain.Panel1MinSize;
+            int max = totalWidth - splitContainerMain.Panel2MinSize - splitContainerMain.SplitterWidth;
+            if (max < min)
+            {
+                return;
+            }
+
+            int distance = Math.Max(min, Math.Min(max, target));
+            if (splitContainerMain.SplitterDistance != distance)
+            {
+                splitContainerMain.SplitterDistance = distance;
+            }
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -223,6 +277,8 @@ namespace _1113354_陳冠瑋_BMI
             lblAdvice.Text = GetAdviceText(bmi);
             lblDeltaToNormal.Text = GetDeltaToNormalText(bmi, heightMeter);
             lblTargetWeight.Text = GetTargetWeightText(heightMeter);
+            lblGaugeInfo.Text = "進度條說明：目前 BMI " + bmi.ToString("F1", CultureInfo.InvariantCulture) + "，對應區間「" + GetBmiCategory(bmi) + "」";
+            lblDistributionInfo.Text = "色帶說明：藍=過輕、綠=正常、橘=過重、紅=肥胖，指示線會標示目前位置";
             UpdateDistributionMarker(bmi);
             AddTrendPoint(bmi);
             AddHistoryItem(bmi);
@@ -249,6 +305,8 @@ namespace _1113354_陳冠瑋_BMI
             lblAdvice.Text = "建議：--";
             lblDeltaToNormal.Text = "距離正常區間：--";
             lblTargetWeight.Text = "目標體重：--";
+            lblGaugeInfo.Text = "進度條說明：用來顯示 BMI 在 10~40 的位置";
+            lblDistributionInfo.Text = "色帶說明：藍=過輕、綠=正常、橘=過重、紅=肥胖";
             progressBarBmi.Value = progressBarBmi.Minimum;
             UpdateDistributionMarker(DistributionMin);
             lblHint.Text = "提示：按 Enter 計算、按 Esc 清除，輸入只接受數字與小數點";
@@ -465,28 +523,13 @@ namespace _1113354_陳冠瑋_BMI
 
         private void headerPulseTimer_Tick(object sender, EventArgs e)
         {
-            pulsePhase += 0.09;
-            if (pulsePhase > Math.PI * 2)
-            {
-                pulsePhase -= Math.PI * 2;
-            }
-
-            int delta = (int)Math.Round(Math.Sin(pulsePhase) * 8);
-            Color baseColor = isDarkTheme ? Color.FromArgb(31, 61, 105) : Color.FromArgb(19, 93, 169);
-            panelHeader.BackColor = Color.FromArgb(
-                ClampColor(baseColor.R + delta),
-                ClampColor(baseColor.G + delta),
-                ClampColor(baseColor.B + delta));
-        }
-
-        private int ClampColor(int value)
-        {
-            return Math.Max(0, Math.Min(255, value));
+            panelHeader.Invalidate();
         }
 
         private void Form1_Resize(object sender, EventArgs e)
         {
             ApplyModernStyle();
+            ConfigureSplitLayout();
             UpdateDistributionMarker(targetBmi > 0 ? targetBmi : DistributionMin);
             panelBmiRing.Invalidate();
             panelDistribution.Invalidate();
@@ -600,8 +643,7 @@ namespace _1113354_陳冠瑋_BMI
                 g.FillRectangle(bg, rect);
             }
 
-            int glowAlpha = 35 + (int)(Math.Sin(pulsePhase) * 18);
-            using (var glow = new SolidBrush(Color.FromArgb(Math.Max(8, glowAlpha), Color.White)))
+            using (var glow = new SolidBrush(Color.FromArgb(28, Color.White)))
             {
                 g.FillEllipse(glow, rect.Width - 360, -140, 520, 260);
                 g.FillEllipse(glow, -220, -120, 420, 220);
@@ -856,7 +898,7 @@ namespace _1113354_陳冠瑋_BMI
             panelBmiRing.Invalidate();
             panelDistribution.Invalidate();
             panelTrend.Invalidate();
-            headerPulseTimer_Tick(this, EventArgs.Empty);
+            panelHeader.Invalidate();
             Invalidate();
         }
     }
