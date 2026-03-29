@@ -23,6 +23,7 @@ namespace _1113354_陳冠瑋_BMI
         private double targetBmi;
         private int targetGauge;
         private double latestHeightMeter;
+        private double pulsePhase;
 
         public Form1()
         {
@@ -37,6 +38,9 @@ namespace _1113354_陳冠瑋_BMI
             btnClear.MouseEnter += BtnClear_MouseEnter;
             btnClear.MouseLeave += BtnClear_MouseLeave;
             panelDistribution.Resize += PanelDistribution_Resize;
+            clockTimer.Start();
+            headerPulseTimer.Start();
+            clockTimer_Tick(this, EventArgs.Empty);
             txtHeight.Focus();
         }
 
@@ -385,6 +389,32 @@ namespace _1113354_陳冠瑋_BMI
             ApplyRoundedRegion(panelDistribution, 12);
         }
 
+        private void clockTimer_Tick(object sender, EventArgs e)
+        {
+            lblDateTime.Text = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss ddd", CultureInfo.GetCultureInfo("zh-TW"));
+        }
+
+        private void headerPulseTimer_Tick(object sender, EventArgs e)
+        {
+            pulsePhase += 0.09;
+            if (pulsePhase > Math.PI * 2)
+            {
+                pulsePhase -= Math.PI * 2;
+            }
+
+            int delta = (int)Math.Round(Math.Sin(pulsePhase) * 8);
+            Color baseColor = isDarkTheme ? Color.FromArgb(31, 61, 105) : Color.FromArgb(19, 93, 169);
+            panelHeader.BackColor = Color.FromArgb(
+                ClampColor(baseColor.R + delta),
+                ClampColor(baseColor.G + delta),
+                ClampColor(baseColor.B + delta));
+        }
+
+        private int ClampColor(int value)
+        {
+            return Math.Max(0, Math.Min(255, value));
+        }
+
         private void Form1_Resize(object sender, EventArgs e)
         {
             ApplyModernStyle();
@@ -576,6 +606,7 @@ namespace _1113354_陳冠瑋_BMI
                 panelHeader.BackColor = Color.FromArgb(31, 61, 105);
                 lblTitle.ForeColor = Color.White;
                 lblSubtitle.ForeColor = Color.FromArgb(189, 214, 247);
+                lblDateTime.ForeColor = Color.FromArgb(203, 224, 250);
                 groupBox1.BackColor = Color.FromArgb(31, 38, 50);
                 groupBox2.BackColor = Color.FromArgb(31, 38, 50);
                 groupBoxHistory.BackColor = Color.FromArgb(31, 38, 50);
@@ -605,6 +636,7 @@ namespace _1113354_陳冠瑋_BMI
                 panelHeader.BackColor = Color.FromArgb(19, 93, 169);
                 lblTitle.ForeColor = Color.White;
                 lblSubtitle.ForeColor = Color.FromArgb(224, 241, 255);
+                lblDateTime.ForeColor = Color.FromArgb(224, 241, 255);
                 groupBox1.BackColor = Color.White;
                 groupBox2.BackColor = Color.White;
                 groupBoxHistory.BackColor = Color.White;
@@ -633,6 +665,7 @@ namespace _1113354_陳冠瑋_BMI
             ApplyModernStyle();
             panelBmiRing.Invalidate();
             panelDistribution.Invalidate();
+            headerPulseTimer_Tick(this, EventArgs.Empty);
         }
     }
 }

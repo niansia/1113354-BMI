@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panelHeader = new System.Windows.Forms.Panel();
+            this.lblDateTime = new System.Windows.Forms.Label();
             this.btnTheme = new System.Windows.Forms.Button();
             this.lblSubtitle = new System.Windows.Forms.Label();
             this.lblTitle = new System.Windows.Forms.Label();
@@ -68,6 +69,8 @@
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.animationTimer = new System.Windows.Forms.Timer(this.components);
+            this.clockTimer = new System.Windows.Forms.Timer(this.components);
+            this.headerPulseTimer = new System.Windows.Forms.Timer(this.components);
             this.panelHeader.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
@@ -85,13 +88,26 @@
             this.panelHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(93)))), ((int)(((byte)(169)))));
+            this.panelHeader.Controls.Add(this.lblDateTime);
             this.panelHeader.Controls.Add(this.btnTheme);
             this.panelHeader.Controls.Add(this.lblSubtitle);
             this.panelHeader.Controls.Add(this.lblTitle);
             this.panelHeader.Location = new System.Drawing.Point(20, 18);
             this.panelHeader.Name = "panelHeader";
-            this.panelHeader.Size = new System.Drawing.Size(964, 102);
+            this.panelHeader.Size = new System.Drawing.Size(964, 112);
             this.panelHeader.TabIndex = 0;
+            // 
+            // lblDateTime
+            // 
+            this.lblDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDateTime.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDateTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(241)))), ((int)(((byte)(255)))));
+            this.lblDateTime.Location = new System.Drawing.Point(664, 14);
+            this.lblDateTime.Name = "lblDateTime";
+            this.lblDateTime.Size = new System.Drawing.Size(283, 24);
+            this.lblDateTime.TabIndex = 3;
+            this.lblDateTime.Text = "--";
+            this.lblDateTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // btnTheme
             // 
@@ -101,9 +117,9 @@
             this.btnTheme.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTheme.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnTheme.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(64)))), ((int)(((byte)(92)))));
-            this.btnTheme.Location = new System.Drawing.Point(826, 24);
+            this.btnTheme.Location = new System.Drawing.Point(826, 49);
             this.btnTheme.Name = "btnTheme";
-            this.btnTheme.Size = new System.Drawing.Size(121, 42);
+            this.btnTheme.Size = new System.Drawing.Size(121, 38);
             this.btnTheme.TabIndex = 2;
             this.btnTheme.Text = "深色模式";
             this.toolTip1.SetToolTip(this.btnTheme, "切換深色 / 淺色介面");
@@ -115,7 +131,7 @@
             this.lblSubtitle.AutoSize = true;
             this.lblSubtitle.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblSubtitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(241)))), ((int)(((byte)(255)))));
-            this.lblSubtitle.Location = new System.Drawing.Point(28, 61);
+            this.lblSubtitle.Location = new System.Drawing.Point(28, 68);
             this.lblSubtitle.Name = "lblSubtitle";
             this.lblSubtitle.Size = new System.Drawing.Size(318, 22);
             this.lblSubtitle.TabIndex = 1;
@@ -143,7 +159,7 @@
             this.groupBox1.Controls.Add(this.txtWeight);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtHeight);
-            this.groupBox1.Location = new System.Drawing.Point(20, 138);
+            this.groupBox1.Location = new System.Drawing.Point(20, 148);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(16, 12, 16, 18);
             this.groupBox1.Size = new System.Drawing.Size(964, 188);
@@ -244,7 +260,7 @@
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainerMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainerMain.Location = new System.Drawing.Point(20, 340);
+            this.splitContainerMain.Location = new System.Drawing.Point(20, 350);
             this.splitContainerMain.Name = "splitContainerMain";
             // 
             // splitContainerMain.Panel1
@@ -294,7 +310,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTargetWeight.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblTargetWeight.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(87)))), ((int)(((byte)(114)))));
-            this.lblTargetWeight.Location = new System.Drawing.Point(334, 251);
+            this.lblTargetWeight.Location = new System.Drawing.Point(334, 249);
             this.lblTargetWeight.Name = "lblTargetWeight";
             this.lblTargetWeight.Size = new System.Drawing.Size(312, 23);
             this.lblTargetWeight.TabIndex = 16;
@@ -305,7 +321,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(78)))), ((int)(((byte)(98)))));
-            this.label9.Location = new System.Drawing.Point(250, 252);
+            this.label9.Location = new System.Drawing.Point(250, 249);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(78, 22);
             this.label9.TabIndex = 15;
@@ -317,7 +333,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblDeltaToNormal.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblDeltaToNormal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(87)))), ((int)(((byte)(114)))));
-            this.lblDeltaToNormal.Location = new System.Drawing.Point(334, 222);
+            this.lblDeltaToNormal.Location = new System.Drawing.Point(334, 220);
             this.lblDeltaToNormal.Name = "lblDeltaToNormal";
             this.lblDeltaToNormal.Size = new System.Drawing.Size(312, 23);
             this.lblDeltaToNormal.TabIndex = 14;
@@ -328,7 +344,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(78)))), ((int)(((byte)(98)))));
-            this.label8.Location = new System.Drawing.Point(250, 223);
+            this.label8.Location = new System.Drawing.Point(250, 220);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(78, 22);
             this.label8.TabIndex = 13;
@@ -340,7 +356,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblAdvice.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblAdvice.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(87)))), ((int)(((byte)(114)))));
-            this.lblAdvice.Location = new System.Drawing.Point(334, 193);
+            this.lblAdvice.Location = new System.Drawing.Point(334, 191);
             this.lblAdvice.Name = "lblAdvice";
             this.lblAdvice.Size = new System.Drawing.Size(312, 23);
             this.lblAdvice.TabIndex = 12;
@@ -351,7 +367,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(78)))), ((int)(((byte)(98)))));
-            this.label7.Location = new System.Drawing.Point(284, 194);
+            this.label7.Location = new System.Drawing.Point(284, 191);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(44, 22);
             this.label7.TabIndex = 11;
@@ -363,7 +379,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblRisk.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblRisk.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(87)))), ((int)(((byte)(114)))));
-            this.lblRisk.Location = new System.Drawing.Point(334, 164);
+            this.lblRisk.Location = new System.Drawing.Point(334, 162);
             this.lblRisk.Name = "lblRisk";
             this.lblRisk.Size = new System.Drawing.Size(312, 23);
             this.lblRisk.TabIndex = 10;
@@ -374,7 +390,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(78)))), ((int)(((byte)(98)))));
-            this.label6.Location = new System.Drawing.Point(284, 165);
+            this.label6.Location = new System.Drawing.Point(284, 162);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(44, 22);
             this.label6.TabIndex = 9;
@@ -386,7 +402,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPercentile.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblPercentile.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(87)))), ((int)(((byte)(114)))));
-            this.lblPercentile.Location = new System.Drawing.Point(334, 135);
+            this.lblPercentile.Location = new System.Drawing.Point(334, 133);
             this.lblPercentile.Name = "lblPercentile";
             this.lblPercentile.Size = new System.Drawing.Size(312, 23);
             this.lblPercentile.TabIndex = 8;
@@ -397,7 +413,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(78)))), ((int)(((byte)(98)))));
-            this.label5.Location = new System.Drawing.Point(284, 136);
+            this.label5.Location = new System.Drawing.Point(284, 133);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(44, 22);
             this.label5.TabIndex = 7;
@@ -406,6 +422,7 @@
             // panelBmiRing
             // 
             this.panelBmiRing.BackColor = System.Drawing.Color.White;
+            this.panelBmiRing.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelBmiRing.Location = new System.Drawing.Point(20, 93);
             this.panelBmiRing.Name = "panelBmiRing";
             this.panelBmiRing.Size = new System.Drawing.Size(212, 180);
@@ -416,7 +433,7 @@
             // 
             this.panelDistribution.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(238)))), ((int)(((byte)(248)))));
             this.panelDistribution.Controls.Add(this.panelMarker);
-            this.panelDistribution.Location = new System.Drawing.Point(254, 93);
+            this.panelDistribution.Location = new System.Drawing.Point(254, 96);
             this.panelDistribution.Name = "panelDistribution";
             this.panelDistribution.Size = new System.Drawing.Size(392, 30);
             this.panelDistribution.TabIndex = 6;
@@ -432,7 +449,7 @@
             // 
             // progressBarBmi
             // 
-            this.progressBarBmi.Location = new System.Drawing.Point(254, 65);
+            this.progressBarBmi.Location = new System.Drawing.Point(254, 69);
             this.progressBarBmi.Maximum = 400;
             this.progressBarBmi.Minimum = 100;
             this.progressBarBmi.Name = "progressBarBmi";
@@ -460,10 +477,10 @@
             this.lblCategory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(247)))), ((int)(((byte)(255)))));
             this.lblCategory.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lblCategory.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.lblCategory.Location = new System.Drawing.Point(334, 103);
+            this.lblCategory.Location = new System.Drawing.Point(334, 101);
             this.lblCategory.Name = "lblCategory";
             this.lblCategory.Padding = new System.Windows.Forms.Padding(12, 6, 12, 6);
-            this.lblCategory.Size = new System.Drawing.Size(314, 38);
+            this.lblCategory.Size = new System.Drawing.Size(314, 31);
             this.lblCategory.TabIndex = 3;
             this.lblCategory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -472,7 +489,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("微軟正黑體", 11.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(78)))), ((int)(((byte)(98)))));
-            this.label4.Location = new System.Drawing.Point(269, 109);
+            this.label4.Location = new System.Drawing.Point(269, 102);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(52, 25);
             this.label4.TabIndex = 2;
@@ -484,10 +501,10 @@
             this.lblResult.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(247)))), ((int)(((byte)(255)))));
             this.lblResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lblResult.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResult.Location = new System.Drawing.Point(523, 97);
+            this.lblResult.Location = new System.Drawing.Point(523, 100);
             this.lblResult.Name = "lblResult";
             this.lblResult.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.lblResult.Size = new System.Drawing.Size(123, 35);
+            this.lblResult.Size = new System.Drawing.Size(123, 31);
             this.lblResult.TabIndex = 1;
             this.lblResult.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -496,7 +513,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("微軟正黑體", 11.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(78)))), ((int)(((byte)(98)))));
-            this.label3.Location = new System.Drawing.Point(269, 65);
+            this.label3.Location = new System.Drawing.Point(269, 66);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(190, 25);
             this.label3.TabIndex = 0;
@@ -569,6 +586,16 @@
             this.animationTimer.Interval = 15;
             this.animationTimer.Tick += new System.EventHandler(this.animationTimer_Tick);
             // 
+            // clockTimer
+            // 
+            this.clockTimer.Interval = 1000;
+            this.clockTimer.Tick += new System.EventHandler(this.clockTimer_Tick);
+            // 
+            // headerPulseTimer
+            // 
+            this.headerPulseTimer.Interval = 35;
+            this.headerPulseTimer.Tick += new System.EventHandler(this.headerPulseTimer_Tick);
+            // 
             // Form1
             // 
             this.AcceptButton = this.btnRun;
@@ -608,6 +635,7 @@
 
         #endregion
         private System.Windows.Forms.Panel panelHeader;
+        private System.Windows.Forms.Label lblDateTime;
         private System.Windows.Forms.Button btnTheme;
         private System.Windows.Forms.Label lblSubtitle;
         private System.Windows.Forms.Label lblTitle;
@@ -646,6 +674,8 @@
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Timer animationTimer;
+        private System.Windows.Forms.Timer clockTimer;
+        private System.Windows.Forms.Timer headerPulseTimer;
     }
 }
 
