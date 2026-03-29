@@ -385,7 +385,6 @@ namespace _1113354_陳冠瑋_BMI
             ApplyRoundedRegion(lblCategory, 12);
             ApplyRoundedRegion(progressBarBmi, 10);
             ApplyRoundedRegion(panelHeader, 22);
-            ApplyRoundedRegion(panelBmiRing, 18);
             ApplyRoundedRegion(panelDistribution, 12);
         }
 

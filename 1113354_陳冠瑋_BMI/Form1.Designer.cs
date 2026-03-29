@@ -422,7 +422,7 @@
             // panelBmiRing
             // 
             this.panelBmiRing.BackColor = System.Drawing.Color.White;
-            this.panelBmiRing.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelBmiRing.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.panelBmiRing.Location = new System.Drawing.Point(20, 93);
             this.panelBmiRing.Name = "panelBmiRing";
             this.panelBmiRing.Size = new System.Drawing.Size(212, 180);
@@ -472,15 +472,14 @@
             // 
             // lblCategory
             // 
-            this.lblCategory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCategory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(247)))), ((int)(((byte)(255)))));
             this.lblCategory.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lblCategory.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.lblCategory.Location = new System.Drawing.Point(334, 101);
+            this.lblCategory.Location = new System.Drawing.Point(523, 29);
             this.lblCategory.Name = "lblCategory";
             this.lblCategory.Padding = new System.Windows.Forms.Padding(12, 6, 12, 6);
-            this.lblCategory.Size = new System.Drawing.Size(314, 31);
+            this.lblCategory.Size = new System.Drawing.Size(123, 31);
             this.lblCategory.TabIndex = 3;
             this.lblCategory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -489,7 +488,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("微軟正黑體", 11.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(78)))), ((int)(((byte)(98)))));
-            this.label4.Location = new System.Drawing.Point(269, 102);
+            this.label4.Location = new System.Drawing.Point(465, 32);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(52, 25);
             this.label4.TabIndex = 2;
