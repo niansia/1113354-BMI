@@ -22,6 +22,7 @@ namespace _1113354_陳冠瑋_BMI
         private int animatedGauge;
         private double targetBmi;
         private int targetGauge;
+        private double latestHeightMeter;
 
         public Form1()
         {
@@ -80,6 +81,8 @@ namespace _1113354_陳冠瑋_BMI
             sb.AppendLine($"風險：{lblRisk.Text}");
             sb.AppendLine(lblHealthyRange.Text);
             sb.AppendLine($"建議：{lblAdvice.Text}");
+            sb.AppendLine(lblDeltaToNormal.Text);
+            sb.AppendLine(lblTargetWeight.Text);
             Clipboard.SetText(sb.ToString());
             lblHint.Text = "已複製 BMI 報告到剪貼簿";
         }
@@ -148,6 +151,7 @@ namespace _1113354_陳冠瑋_BMI
 
         private void UpdateResult(double bmi, double heightMeter)
         {
+            latestHeightMeter = heightMeter;
             targetBmi = bmi;
             targetGauge = Math.Max(progressBarBmi.Minimum, Math.Min(progressBarBmi.Maximum, (int)Math.Round(bmi * 10)));
             animationTimer.Start();
@@ -159,12 +163,17 @@ namespace _1113354_陳冠瑋_BMI
             lblPercentile.Text = GetPercentileText(bmi);
             lblRisk.Text = GetRiskLevelText(bmi);
             lblAdvice.Text = GetAdviceText(bmi);
+            lblDeltaToNormal.Text = GetDeltaToNormalText(bmi, heightMeter);
+            lblTargetWeight.Text = GetTargetWeightText(heightMeter);
             UpdateDistributionMarker(bmi);
             AddHistoryItem(bmi);
+            panelDistribution.Invalidate();
+            panelBmiRing.Invalidate();
         }
 
         private void ResetResultDisplay()
         {
+            latestHeightMeter = 0;
             animatedBmi = 0;
             animatedGauge = progressBarBmi.Minimum;
             targetBmi = 0;
@@ -178,9 +187,13 @@ namespace _1113354_陳冠瑋_BMI
             lblPercentile.Text = "超越比例：--";
             lblRisk.Text = "風險等級：--";
             lblAdvice.Text = "建議：--";
+            lblDeltaToNormal.Text = "距離正常區間：--";
+            lblTargetWeight.Text = "目標體重：--";
             progressBarBmi.Value = progressBarBmi.Minimum;
             UpdateDistributionMarker(DistributionMin);
             lblHint.Text = "提示：按 Enter 計算、按 Esc 清除，輸入只接受數字與小數點";
+            panelDistribution.Invalidate();
+            panelBmiRing.Invalidate();
         }
 
         private string GetBmiCategory(double bmi)
@@ -316,6 +329,31 @@ namespace _1113354_陳冠瑋_BMI
             return "建議：先從飲食赤字與規律運動逐步下降";
         }
 
+        private string GetDeltaToNormalText(double bmi, double heightMeter)
+        {
+            double currentWeight = bmi * heightMeter * heightMeter;
+            double minWeight = UnderweightThreshold * heightMeter * heightMeter;
+            double maxWeight = NormalThreshold * heightMeter * heightMeter;
+
+            if (bmi < UnderweightThreshold)
+            {
+                return $"距離正常區間：需增加 {minWeight - currentWeight:F1} kg";
+            }
+
+            if (bmi < NormalThreshold)
+            {
+                return "距離正常區間：已在理想範圍內";
+            }
+
+            return $"距離正常區間：需減少 {currentWeight - maxWeight:F1} kg";
+        }
+
+        private string GetTargetWeightText(double heightMeter)
+        {
+            double target = ((UnderweightThreshold + NormalThreshold) / 2d) * heightMeter * heightMeter;
+            return $"目標體重：約 {target:F1} kg";
+        }
+
         private void UpdateDistributionMarker(double bmi)
         {
             double normalized = (Math.Max(DistributionMin, Math.Min(DistributionMax, bmi)) - DistributionMin) / (DistributionMax - DistributionMin);
@@ -343,6 +381,7 @@ namespace _1113354_陳冠瑋_BMI
             ApplyRoundedRegion(lblCategory, 12);
             ApplyRoundedRegion(progressBarBmi, 10);
             ApplyRoundedRegion(panelHeader, 22);
+            ApplyRoundedRegion(panelBmiRing, 18);
             ApplyRoundedRegion(panelDistribution, 12);
         }
 
@@ -350,11 +389,109 @@ namespace _1113354_陳冠瑋_BMI
         {
             ApplyModernStyle();
             UpdateDistributionMarker(targetBmi > 0 ? targetBmi : DistributionMin);
+            panelBmiRing.Invalidate();
+            panelDistribution.Invalidate();
         }
 
         private void PanelDistribution_Resize(object sender, EventArgs e)
         {
             UpdateDistributionMarker(targetBmi > 0 ? targetBmi : DistributionMin);
+            panelDistribution.Invalidate();
+        }
+
+        private void panelDistribution_Paint(object sender, PaintEventArgs e)
+        {
+            var g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+
+            using (var blue = new SolidBrush(Color.FromArgb(72, 161, 255)))
+            using (var green = new SolidBrush(Color.FromArgb(86, 200, 114)))
+            using (var orange = new SolidBrush(Color.FromArgb(247, 167, 73)))
+            using (var red = new SolidBrush(Color.FromArgb(237, 104, 104)))
+            {
+                int w = panelDistribution.Width;
+                int h = panelDistribution.Height;
+                int x1 = (int)Math.Round((UnderweightThreshold - DistributionMin) / (DistributionMax - DistributionMin) * w);
+                int x2 = (int)Math.Round((NormalThreshold - DistributionMin) / (DistributionMax - DistributionMin) * w);
+                int x3 = (int)Math.Round((OverweightThreshold - DistributionMin) / (DistributionMax - DistributionMin) * w);
+
+                g.FillRectangle(blue, 0, 0, Math.Max(1, x1), h);
+                g.FillRectangle(green, Math.Max(0, x1), 0, Math.Max(1, x2 - x1), h);
+                g.FillRectangle(orange, Math.Max(0, x2), 0, Math.Max(1, x3 - x2), h);
+                g.FillRectangle(red, Math.Max(0, x3), 0, Math.Max(1, w - x3), h);
+            }
+
+            using (var borderPen = new Pen(isDarkTheme ? Color.FromArgb(90, 101, 119) : Color.FromArgb(197, 210, 226)))
+            {
+                g.DrawRectangle(borderPen, 0, 0, panelDistribution.Width - 1, panelDistribution.Height - 1);
+            }
+        }
+
+        private void panelBmiRing_Paint(object sender, PaintEventArgs e)
+        {
+            var g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.Clear(panelBmiRing.BackColor);
+
+            int size = Math.Min(panelBmiRing.Width, panelBmiRing.Height) - 24;
+            if (size <= 40)
+            {
+                return;
+            }
+
+            int x = (panelBmiRing.Width - size) / 2;
+            int y = (panelBmiRing.Height - size) / 2;
+            var ring = new Rectangle(x, y, size, size);
+
+            DrawRingSegment(g, ring, DistributionMin, UnderweightThreshold, Color.FromArgb(72, 161, 255));
+            DrawRingSegment(g, ring, UnderweightThreshold, NormalThreshold, Color.FromArgb(86, 200, 114));
+            DrawRingSegment(g, ring, NormalThreshold, OverweightThreshold, Color.FromArgb(247, 167, 73));
+            DrawRingSegment(g, ring, OverweightThreshold, DistributionMax, Color.FromArgb(237, 104, 104));
+
+            double value = targetBmi > 0 ? animatedBmi : DistributionMin;
+            float angle = ValueToAngle(value);
+            Point center = new Point(ring.Left + ring.Width / 2, ring.Top + ring.Height / 2);
+            int radius = ring.Width / 2;
+            double rad = (angle - 90) * Math.PI / 180.0;
+            Point needle = new Point(
+                center.X + (int)((radius - 6) * Math.Cos(rad)),
+                center.Y + (int)((radius - 6) * Math.Sin(rad)));
+
+            using (var pen = new Pen(isDarkTheme ? Color.WhiteSmoke : Color.FromArgb(40, 58, 81), 2.5f))
+            using (var dot = new SolidBrush(isDarkTheme ? Color.WhiteSmoke : Color.FromArgb(40, 58, 81)))
+            {
+                g.DrawLine(pen, center, needle);
+                g.FillEllipse(dot, center.X - 5, center.Y - 5, 10, 10);
+            }
+
+            string valueText = targetBmi > 0 ? $"{targetBmi:F1}" : "--";
+            using (var fontMain = new Font("Segoe UI", 15f, FontStyle.Bold))
+            using (var fontSub = new Font("微軟正黑體", 8.5f, FontStyle.Bold))
+            using (var brushText = new SolidBrush(isDarkTheme ? Color.WhiteSmoke : Color.FromArgb(51, 73, 101)))
+            {
+                SizeF mainSize = g.MeasureString(valueText, fontMain);
+                g.DrawString(valueText, fontMain, brushText, center.X - mainSize.Width / 2f, center.Y - mainSize.Height * 0.85f);
+                g.DrawString("BMI", fontSub, brushText, center.X - 13, center.Y + 12);
+            }
+        }
+
+        private void DrawRingSegment(Graphics g, Rectangle ring, double from, double to, Color color)
+        {
+            using (var pen = new Pen(color, 13f))
+            {
+                pen.StartCap = LineCap.Round;
+                pen.EndCap = LineCap.Round;
+                float start = ValueToAngle(from) - 90f;
+                float sweep = ValueToAngle(to) - ValueToAngle(from);
+                g.DrawArc(pen, ring, start, sweep);
+            }
+        }
+
+        private float ValueToAngle(double value)
+        {
+            double clamped = Math.Max(DistributionMin, Math.Min(DistributionMax, value));
+            double normalized = (clamped - DistributionMin) / (DistributionMax - DistributionMin);
+            return (float)(normalized * 360d);
         }
 
         private void ApplyRoundedRegion(Control control, int radius)
@@ -419,6 +556,7 @@ namespace _1113354_陳冠瑋_BMI
 
             lblResult.Text = targetBmi <= 0 ? "--" : $"{animatedBmi:F2}";
             progressBarBmi.Value = Math.Max(progressBarBmi.Minimum, Math.Min(progressBarBmi.Maximum, animatedGauge));
+            panelBmiRing.Invalidate();
 
             if (Math.Abs(animatedBmi - targetBmi) < 0.02 && animatedGauge == targetGauge)
             {
@@ -455,6 +593,7 @@ namespace _1113354_陳冠瑋_BMI
                 btnTheme.ForeColor = Color.WhiteSmoke;
                 btnCopySummary.BackColor = Color.FromArgb(50, 58, 72);
                 btnCopySummary.ForeColor = Color.WhiteSmoke;
+                panelBmiRing.BackColor = Color.FromArgb(37, 46, 60);
                 panelDistribution.BackColor = Color.FromArgb(56, 64, 80);
                 lblHint.ForeColor = Color.FromArgb(166, 179, 199);
                 listBoxHistory.BackColor = Color.FromArgb(38, 46, 58);
@@ -483,6 +622,7 @@ namespace _1113354_陳冠瑋_BMI
                 btnTheme.ForeColor = Color.FromArgb(41, 64, 92);
                 btnCopySummary.BackColor = Color.FromArgb(234, 242, 252);
                 btnCopySummary.ForeColor = Color.FromArgb(41, 64, 92);
+                panelBmiRing.BackColor = Color.White;
                 panelDistribution.BackColor = Color.FromArgb(230, 238, 248);
                 lblHint.ForeColor = Color.DimGray;
                 listBoxHistory.BackColor = Color.FromArgb(246, 251, 255);
@@ -491,6 +631,8 @@ namespace _1113354_陳冠瑋_BMI
 
             btnTheme.Text = isDarkTheme ? "淺色模式" : "深色模式";
             ApplyModernStyle();
+            panelBmiRing.Invalidate();
+            panelDistribution.Invalidate();
         }
     }
 }
