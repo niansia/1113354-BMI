@@ -20,7 +20,7 @@ namespace _1113354_陳冠瑋_BMI
         private const double Obese2Threshold = 35;
         private const double DistributionMin = 10;
         private const double DistributionMax = 40;
-        private const int SidePanelPreferredWidth = 360;
+        private const int SidePanelPreferredWidth = 430;
 
         private bool isDarkTheme;
         private double animatedBmi;
@@ -123,12 +123,17 @@ namespace _1113354_陳冠瑋_BMI
             }
 
             const int margin = 14;
-            const int top = 30;
+            const int top = 34;
             const int spacing = 10;
             const int buttonHeight = 38;
             const int buttonGap = 8;
 
-            int trendHeight = Math.Max(90, (int)Math.Round(height * 0.24));
+            double trendRange = trendBmis.Count > 1 ? MaxTrendValue() - MinTrendValue() : 0d;
+            double normalizedRange = Math.Min(1d, trendRange / 8d);
+            int dynamicExtra = (int)Math.Round(normalizedRange * 70d);
+            int baseTrendHeight = Math.Max(130, (int)Math.Round(height * 0.28));
+            int maxTrendHeight = Math.Max(130, height - margin * 2 - spacing * 2 - buttonHeight * 2 - buttonGap - 100);
+            int trendHeight = Math.Min(maxTrendHeight, baseTrendHeight + dynamicExtra);
             panelTrend.SetBounds(margin, top, width - margin * 2, trendHeight);
 
             int buttonsTop = height - margin - (buttonHeight * 2 + buttonGap);
@@ -323,6 +328,7 @@ namespace _1113354_陳冠瑋_BMI
             lblDistributionInfo.Text = "色帶說明：藍=過輕、綠=正常、橘=過重、紅=肥胖，指示線會標示目前位置";
             UpdateDistributionMarker(bmi);
             AddTrendPoint(bmi);
+            LayoutHistoryPanel();
             AddHistoryItem(bmi);
             panelDistribution.Invalidate();
             panelBmiRing.Invalidate();
@@ -644,11 +650,17 @@ namespace _1113354_陳冠瑋_BMI
                 }
             }
 
+            RectangleF plotArea = new RectangleF(chartArea.Left + 5f, chartArea.Top + 7f, chartArea.Width - 10f, chartArea.Height - 14f);
+            if (plotArea.Width <= 4f || plotArea.Height <= 4f)
+            {
+                return;
+            }
+
             PointF[] points = new PointF[trendBmis.Count];
             for (int i = 0; i < trendBmis.Count; i++)
             {
-                float x = chartArea.Left + (chartArea.Width * i / (float)Math.Max(1, trendBmis.Count - 1));
-                float y = chartArea.Bottom - (float)((trendBmis[i] - min) / (max - min) * chartArea.Height);
+                float x = plotArea.Left + (plotArea.Width * i / (float)Math.Max(1, trendBmis.Count - 1));
+                float y = plotArea.Bottom - (float)((trendBmis[i] - min) / (max - min) * plotArea.Height);
                 points[i] = new PointF(x, y);
             }
 
@@ -662,8 +674,8 @@ namespace _1113354_陳冠瑋_BMI
                         areaPoints[i] = points[i];
                     }
 
-                    areaPoints[points.Length] = new PointF(points[points.Length - 1].X, chartArea.Bottom);
-                    areaPoints[points.Length + 1] = new PointF(points[0].X, chartArea.Bottom);
+                    areaPoints[points.Length] = new PointF(points[points.Length - 1].X, plotArea.Bottom);
+                    areaPoints[points.Length + 1] = new PointF(points[0].X, plotArea.Bottom);
                     g.FillPolygon(fillBrush, areaPoints);
                 }
             }
