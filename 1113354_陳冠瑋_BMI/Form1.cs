@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -33,6 +34,11 @@ namespace _1113354_陳冠瑋_BMI
         public Form1()
         {
             InitializeComponent();
+            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+            {
+                return;
+            }
+
             SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
             ApplyModernStyle();
             EnableDoubleBuffer(panelHeader);
@@ -585,12 +591,17 @@ namespace _1113354_陳冠瑋_BMI
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.Clear(panelTrend.BackColor);
 
-            Rectangle chartArea = new Rectangle(10, 10, panelTrend.Width - 20, panelTrend.Height - 20);
-            using (var gridPen = new Pen(isDarkTheme ? Color.FromArgb(66, 76, 94) : Color.FromArgb(216, 226, 239)))
+            int headerHeight = 24;
+            Rectangle chartArea = new Rectangle(12, headerHeight + 8, panelTrend.Width - 24, panelTrend.Height - headerHeight - 16);
+            if (chartArea.Width <= 10 || chartArea.Height <= 10)
             {
-                g.DrawRectangle(gridPen, chartArea);
-                int midY = chartArea.Top + chartArea.Height / 2;
-                g.DrawLine(gridPen, chartArea.Left, midY, chartArea.Right, midY);
+                return;
+            }
+
+            using (var titleFont = new Font("Segoe UI", 8.5f, FontStyle.Bold))
+            using (var titleBrush = new SolidBrush(isDarkTheme ? Color.FromArgb(220, 232, 249) : Color.FromArgb(59, 83, 113)))
+            {
+                g.DrawString("Trend", titleFont, titleBrush, 14, 7);
             }
 
             if (trendBmis.Count == 0)
@@ -598,17 +609,39 @@ namespace _1113354_陳冠瑋_BMI
                 using (var font = new Font("微軟正黑體", 9f, FontStyle.Bold))
                 using (var brush = new SolidBrush(isDarkTheme ? Color.FromArgb(179, 196, 220) : Color.FromArgb(104, 126, 153)))
                 {
-                    g.DrawString("BMI Trend", font, brush, 14, 12);
-                    g.DrawString("尚無資料", font, brush, 14, 34);
+                    SizeF textSize = g.MeasureString("尚無資料", font);
+                    float textX = chartArea.Left + (chartArea.Width - textSize.Width) / 2f;
+                    float textY = chartArea.Top + (chartArea.Height - textSize.Height) / 2f;
+                    g.DrawString("尚無資料", font, brush, textX, textY);
                 }
+
+                using (var borderPen = new Pen(isDarkTheme ? Color.FromArgb(66, 76, 94) : Color.FromArgb(216, 226, 239)))
+                {
+                    g.DrawRectangle(borderPen, chartArea);
+                }
+
                 return;
             }
 
-            double min = Math.Min(14, Math.Floor(MinTrendValue()));
-            double max = Math.Max(36, Math.Ceiling(MaxTrendValue()));
-            if (Math.Abs(max - min) < 0.01)
+            double minValue = MinTrendValue();
+            double maxValue = MaxTrendValue();
+            double range = maxValue - minValue;
+            double padding = range < 0.01 ? 1d : Math.Max(0.6d, range * 0.18d);
+            double min = minValue - padding;
+            double max = maxValue + padding;
+            if (Math.Abs(max - min) < 0.001)
             {
                 max = min + 1;
+            }
+
+            using (var gridPen = new Pen(isDarkTheme ? Color.FromArgb(66, 76, 94) : Color.FromArgb(216, 226, 239)))
+            {
+                g.DrawRectangle(gridPen, chartArea);
+                for (int i = 1; i <= 3; i++)
+                {
+                    int y = chartArea.Top + (chartArea.Height * i / 4);
+                    g.DrawLine(gridPen, chartArea.Left, y, chartArea.Right, y);
+                }
             }
 
             PointF[] points = new PointF[trendBmis.Count];
@@ -619,11 +652,35 @@ namespace _1113354_陳冠瑋_BMI
                 points[i] = new PointF(x, y);
             }
 
+            using (var fillBrush = new SolidBrush(isDarkTheme ? Color.FromArgb(28, 99, 182, 255) : Color.FromArgb(34, 35, 131, 219)))
+            {
+                if (points.Length > 1)
+                {
+                    PointF[] areaPoints = new PointF[points.Length + 2];
+                    for (int i = 0; i < points.Length; i++)
+                    {
+                        areaPoints[i] = points[i];
+                    }
+
+                    areaPoints[points.Length] = new PointF(points[points.Length - 1].X, chartArea.Bottom);
+                    areaPoints[points.Length + 1] = new PointF(points[0].X, chartArea.Bottom);
+                    g.FillPolygon(fillBrush, areaPoints);
+                }
+            }
+
             using (var linePen = new Pen(isDarkTheme ? Color.FromArgb(99, 182, 255) : Color.FromArgb(35, 131, 219), 2.2f))
             {
                 if (points.Length > 1)
                 {
                     g.DrawLines(linePen, points);
+                }
+            }
+
+            using (var pointBrush = new SolidBrush(isDarkTheme ? Color.FromArgb(166, 216, 255) : Color.FromArgb(35, 131, 219)))
+            {
+                for (int i = 0; i < points.Length; i++)
+                {
+                    g.FillEllipse(pointBrush, points[i].X - 2.6f, points[i].Y - 2.6f, 5.2f, 5.2f);
                 }
             }
 
@@ -636,8 +693,9 @@ namespace _1113354_陳冠瑋_BMI
             using (var font = new Font("Segoe UI", 8.5f, FontStyle.Bold))
             using (var brush = new SolidBrush(isDarkTheme ? Color.FromArgb(220, 232, 249) : Color.FromArgb(59, 83, 113)))
             {
-                g.DrawString("Trend", font, brush, 14, 12);
-                g.DrawString(trendBmis[trendBmis.Count - 1].ToString("F2", CultureInfo.InvariantCulture), font, brush, chartArea.Right - 44, 12);
+                string latestText = trendBmis[trendBmis.Count - 1].ToString("F2", CultureInfo.InvariantCulture);
+                SizeF latestSize = g.MeasureString(latestText, font);
+                g.DrawString(latestText, font, brush, chartArea.Right - latestSize.Width, 7);
             }
         }
 
